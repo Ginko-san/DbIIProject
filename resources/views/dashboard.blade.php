@@ -264,10 +264,8 @@
 
         var updateScalingFactor = function(dbname, stat) {
           var queryJson = @json(DashboardController::screenMonitorDataReturn());
-          for (i = 0; i < queryJson.length ;i++) {
-            if (queryJson[i]['name'] === dbname)
-              return Math.round((stat === 0) ? (queryJson[i]['usedSize']*8) : (stat === 1) ? (queryJson[i]['unusedSize']*8) : (stat === 2) ? (queryJson[i]['actualSize']*8) : (stat === 3) ? ((queryJson[i]['maxsize'] < 0) ? -1 : (queryJson[i]['maxsize']*8)) : queryJson[i]['growth']);
-          }
+
+          return Math.round((stat === 0) ? (queryJson[0]['usedSize']*8) : (stat === 1) ? (queryJson[0]['unusedSize']*8) : (stat === 2) ? (queryJson[0]['actualSize']*8) : (stat === 3) ? ((queryJson[0]['maxsize'] < 0) ? -1 : (queryJson[0]['maxsize']*8)) : queryJson[0]['growth']);
         };
 
         var config = {
@@ -320,7 +318,7 @@
           changeText('growthLI', "Growth: " + growth +".");
           changeText('userPercentageLI', "Usage %: " + (updateScalingFactor('master', 0) / actualSize)*100 +"%.");
           
-        }, 2000);
+        }, 1000);
 
         var changeText = function(itemId, text){ 
           document.getElementById(itemId).innerHTML = text;
