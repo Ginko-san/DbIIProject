@@ -21,7 +21,7 @@
 
                     <div class="form-group row">
                         <label for="user" class="control-label">Username</label>
-                        <input id="user" type="text" class="form-control" name="user" value="sa" placeholder="SuperAdmin" required autofocus>
+                        <input id="user" type="text" class="form-control" name="user" placeholder="SuperAdmin" required autofocus>
                     </div>
                 
                     <div class="form-group row">
@@ -61,5 +61,10 @@
             </div>
         </div>
     </div>
+    @if ($message !== '')
+        <div class="row center alert alert-danger col-md-4" role="alert">
+            {{ $message }}
+        </div>
+    @endif
 </div>
 @endsection

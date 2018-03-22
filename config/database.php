@@ -33,12 +33,12 @@ return [
 
     'connections' => [
         'custom' => [
-            'driver' => 'pgsql',
-            'host' => env('DB_HOST', 'localhost'),
-            'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'postgres'),
-            'username' => env('DB_USERNAME', 'postgres'),
-            'password' => env('DB_PASSWORD', '12345'),
+            'driver' => 'sqlsrv',
+            'host' => 'localhost',
+            'port' => '1433',
+            'database' => 'master',
+            'username' => 'sa',
+            'password' => 'S@lchich0n15',
             'charset' => 'utf8',
             'prefix' => '',
         ],
