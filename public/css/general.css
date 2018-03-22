@@ -1,0 +1,51 @@
+.login {
+	background: #343a40;
+	color: #343a40;
+}
+.seccionROW {
+	min-height: 500px;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+	background-attachment: fixed;
+	height: 75%;
+}
+
+.center {
+	margin: 0 auto; /* Added */
+	float: none; /* Added */
+	margin-bottom: 10px; /* Added */
+}
+
+.cuadro {
+	padding-left: 5%;
+	background-color: white;
+	box-shadow: 0 4px 8px 0 rgba(218, 216, 216, 0.712), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	margin-top: -2%;
+}
+
+.fellFont {
+	font-family: 'IM Fell English SC', serif;
+	color: white;
+}
+.itemCustom {
+	/*background-size: 100%;
+	background-position: center center;*/
+	padding: 50px 10px;
+	margin-bottom: 30px;
+}
+
+.signIn {
+	margin-top: 2em;
+}
+
+.signIn-label {
+	margin-top: 6%;
+}
+
+.slideSection {
+	height: 50%;
+}
+
