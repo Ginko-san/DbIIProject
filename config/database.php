@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'custom'),
+    'default' => env('DB_CONNECTION', 'onthefly'),
 
     /*
     |--------------------------------------------------------------------------
@@ -32,11 +32,11 @@ return [
     */
 
     'connections' => [
-        'custom' => [
+        'onthefly' => [
             'driver' => 'sqlsrv',
             'host' => 'localhost',
             'port' => '1433',
-            'database' => 'master',
+            'database' => 'entidadBancariaBD',
             'username' => 'sa',
             'password' => 'S@lchich0n15',
             'charset' => 'utf8',

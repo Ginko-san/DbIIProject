@@ -20,8 +20,8 @@
                     {{ csrf_field() }}
 
                     <div class="form-group row">
-                        <label for="user" class="control-label">Username</label>
-                        <input id="user" type="text" class="form-control" name="user" placeholder="SuperAdmin" required autofocus>
+                        <label for="username" class="control-label">Username</label>
+                        <input id="username" type="text" class="form-control" name="username" placeholder="SuperAdmin" required autofocus>
                     </div>
                 
                     <div class="form-group row">

@@ -16,18 +16,21 @@ Route::get('/', function () {
 
 Route::resource('/login', 'LoginController');
 Route::resource('/dashboard', 'DashboardController');
+Route::post('/changeDatabaseNameConnected', 'DashboardController@changeDatabaseNameConnected')->name('dashboard.changeDBName');
+
 Route::resource('/test', 'TestController');
 
-
+/*
 Route::get('/testconn', function () {
     //$users = DB::connection('pgsql')->select('SELECT datname FROM pg_database');
     $users = DB::connection('sqlsrv')->select('SELECT size, maxsize, growth, name  FROM sysfiles;');
     var_dump($users);
 });
+*/
 
 Route::get('/testconn', 'DashboardController@screenMonitorDataReturn');
 
 Route::get('/testconn2', function () {
-    $users = DB::connection('pgsql')->select('SELECT datname FROM pg_database');
+    $users = DB::connection('onthefly')->getDatabaseName();
     var_dump($users);
 });

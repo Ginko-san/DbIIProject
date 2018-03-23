@@ -16,12 +16,13 @@ class LoginController extends Controller
 
     public function store(Request $request) {
         $this->validate($request,[
-            'user'=>'required',
+            'username'=>'required',
             'password'=>'required',
             'host'=>'required',
             'port'=>'required',
         ]);
         
+        DatabaseConnection::modEnv($request->dbRadio, $request->host, $request->port, $request->username, $request->password);
 
         sleep(1);
 

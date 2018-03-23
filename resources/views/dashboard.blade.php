@@ -1,5 +1,7 @@
-<?php use App\Http\Controllers\DashboardController;?>
+<?php 
+use App\Http\Controllers\DashboardController;?>
 
+ 
 @extends('layouts.app')
 
 @section('content')
@@ -20,7 +22,7 @@
 </style>
 
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Databases Admin</a>
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ route('dashboard.index') }}">Databases Admin</a>
       <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
@@ -78,30 +80,51 @@
         </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+          <!-- Aside Menu -->
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-            <h1 class="h2">Dashboard</h1>
+            <h1 class="h2">Database Info: {{ $currentDB }}</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
               <div class="btn-group mr-2">
-                <button class="btn btn-sm btn-outline-secondary">Share</button>
-                <button class="btn btn-sm btn-outline-secondary">Export</button>
               </div>
-              <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                <span data-feather="calendar"></span>
-                This week
-              </button>
             </div>
           </div>
 
           <div class="row">
-            <div style="width:80%" id="screenAlign">
+            <div style="width:70%" id="screenAlign">
               <canvas class="my-4" id="screenStorage"></canvas>
             </div>
-            <div id="screenDataOthers">
-              <ul class="list-group">
-                <li class="list-group-item list-group-item-dark" id="maxSizeLI">Max Size: wait... KB."</li>
-                <li class="list-group-item list-group-item-light" id="growthLI">Growth: wait... .</li>
-                <li class="list-group-item list-group-item-dark" id="userPercentageLI">Usage %: wait... %.</li>
-              </ul>
+            <div>
+              <!-- List showing data of the current database selected -->
+              <div id="screenDataOthers row">
+                <ul class="list-group">
+                  <li class="list-group-item list-group-item-dark" id="maxSizeLI">Max Size: wait... KB."</li>
+                  <li class="list-group-item list-group-item-light" id="actualSizeLI">Actual Size: wait... KB."</li>
+                  <li class="list-group-item list-group-item-dark" id="growthLI">Growth: wait... .</li>
+                  <li class="list-group-item list-group-item-light" id="userPercentageLI">Usage %: wait... %.</li>
+                </ul>
+              </div>
+
+              <!-- Select tag to change the current db -->
+              <br/>
+              <div class="row">
+                <form class="form-horizontal" role="form" action="{{ route('dashboard.changeDBName') }}" method="POST">
+                  <div class="form-group">
+                    <label for="databases"><span data-feather="layers"></span>  Databases List: </label>
+                    <select class="form-control custom-select" id="databases" name="databases">
+                      @foreach($databasesOnList as $db)
+                        <option value="{{ $db->name }}">{{ $db->name }}</option> 
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-md-6 col-md-offset-4">
+                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                      <input class="btn btn-dark btn-block" type="submit"  value="Change DB">
+                    </div>
+                  </div>
+                </form>
+              </div>
+
             </div>
           </div>
 
@@ -120,11 +143,9 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>1,001</td>
-                    <td>Lorem</td>
-                    <td>ipsum</td>
-                    <td>dolor</td>
-                    <td>sit</td>
+                  @foreach ($databasesOnList as $db)
+                    <td>{{ $db->name }}</td>
+                  @endforeach
                   </tr>
                   <tr>
                     <td>1,002</td>
@@ -154,96 +175,15 @@
                     <td>Sed</td>
                     <td>nisi</td>
                   </tr>
-                  <tr>
-                    <td>1,005</td>
-                    <td>Nulla</td>
-                    <td>quis</td>
-                    <td>sem</td>
-                    <td>at</td>
-                  </tr>
-                  <tr>
-                    <td>1,006</td>
-                    <td>nibh</td>
-                    <td>elementum</td>
-                    <td>imperdiet</td>
-                    <td>Duis</td>
-                  </tr>
-                  <tr>
-                    <td>1,007</td>
-                    <td>sagittis</td>
-                    <td>ipsum</td>
-                    <td>Praesent</td>
-                    <td>mauris</td>
-                  </tr>
-                  <tr>
-                    <td>1,008</td>
-                    <td>Fusce</td>
-                    <td>nec</td>
-                    <td>tellus</td>
-                    <td>sed</td>
-                  </tr>
-                  <tr>
-                    <td>1,009</td>
-                    <td>augue</td>
-                    <td>semper</td>
-                    <td>porta</td>
-                    <td>Mauris</td>
-                  </tr>
-                  <tr>
-                    <td>1,010</td>
-                    <td>massa</td>
-                    <td>Vestibulum</td>
-                    <td>lacinia</td>
-                    <td>arcu</td>
-                  </tr>
-                  <tr>
-                    <td>1,011</td>
-                    <td>eget</td>
-                    <td>nulla</td>
-                    <td>Class</td>
-                    <td>aptent</td>
-                  </tr>
-                  <tr>
-                    <td>1,012</td>
-                    <td>taciti</td>
-                    <td>sociosqu</td>
-                    <td>ad</td>
-                    <td>litora</td>
-                  </tr>
-                  <tr>
-                    <td>1,013</td>
-                    <td>torquent</td>
-                    <td>per</td>
-                    <td>conubia</td>
-                    <td>nostra</td>
-                  </tr>
-                  <tr>
-                    <td>1,014</td>
-                    <td>per</td>
-                    <td>inceptos</td>
-                    <td>himenaeos</td>
-                    <td>Curabitur</td>
-                  </tr>
-                  <tr>
-                    <td>1,015</td>
-                    <td>sodales</td>
-                    <td>ligula</td>
-                    <td>in</td>
-                    <td>libero</td>
-                  </tr>
                 </tbody>
               </table>
             </div>
           </div>
+
         </main>
       </div>
     </div>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
+    
     <!-- Icons -->
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
     <script>
@@ -258,23 +198,28 @@
         var growth = 100;
         var name = '';
 
-    		var randomScalingFactor = function() {
-          return Math.round(Math.random() * 100);
+        window.onload = function() {
+          var ctx = document.getElementById('screenStorage').getContext('2d');
+          window.myPie = new Chart(ctx, config);
         };
-
-        var updateScalingFactor = function(dbname, stat) {
-          var queryJson = @json(DashboardController::screenMonitorDataReturn());
-
-          return Math.round((stat === 0) ? (queryJson[0]['usedSize']*8) : (stat === 1) ? (queryJson[0]['unusedSize']*8) : (stat === 2) ? (queryJson[0]['actualSize']*8) : (stat === 3) ? ((queryJson[0]['maxsize'] < 0) ? -1 : (queryJson[0]['maxsize']*8)) : queryJson[0]['growth']);
+        
+        var changeText = function(itemId, text) { 
+          document.getElementById(itemId).innerHTML = text;
         };
-
+        
+        var updateScalingFactorJsonArray = function() {
+          return @json(DashboardController::screenMonitorDataReturn());
+        };
+        
+        // First pie graphic display.
+        var jsonArray = updateScalingFactorJsonArray();
         var config = {
           type: 'pie',
           data: {
             datasets: [{
               data: [
-                updateScalingFactor('master', 0),
-                updateScalingFactor('master', 1),
+                Math.round(parseInt(jsonArray[0]['usedSize'])*8),
+                Math.round(parseInt(jsonArray[0]['unusedSize'])*8),
               ],
               backgroundColor: [
                 window.chartColors.red,
@@ -284,47 +229,54 @@
             }],
             labels: [
               'Used',
-              'Unused'
+              'Unused',
             ]
           },
           options: {
-            responsive: true
+            segmentShowStroke : true,
+            segmentStrokeColor : "#fff",
+            segmentStrokeWidth : 2,
+            percentageInnerCutout : 50,
+            animationSteps : 100,
+            animationEasing : "easeOutBounce",
+            animateRotate : true,
+            animateScale : false,
+            responsive: true,
+            maintainAspectRatio: true,
+            showScale: true,
+            animateScale: true
           }
         };
+        
+        // Seccion donde se produze la llamada asincronica y se actualiza
+        // el grafico de pie.
+        var asyncCall = setInterval( function() { asyncCallFunc(); }, 5000);
 
-        window.onload = function() {
-          var ctx = document.getElementById('screenStorage').getContext('2d');
-          window.myPie = new Chart(ctx, config);
-        };
+        function asyncCallFunc() {
+          var queryRes = updateScalingFactorJsonArray();
+          var used = Math.round(parseInt(queryRes[0]['usedSize'])*8);
 
-        var x = setInterval( function() {
           var cont = 0;
           config.data.datasets.forEach(function(dataset) {
             dataset.data = dataset.data.map(function() {
               if (cont === 0){
                 cont++;
-                return updateScalingFactor('master', 0);
+                return used;
               } else 
-                return updateScalingFactor('master', 1);
+                return Math.round(parseInt(queryRes[0]['unusedSize'])*8);
             });
           });
           window.myPie.update();
           
-          actualSize = updateScalingFactor('master', 2);
-          maxSize = updateScalingFactor('master', 3);
-          growth = updateScalingFactor('master', 4);
+          actualSize = Math.round(parseInt(queryRes[0]['actualSize']) * 8);
+          maxSize = (Math.round(parseInt(queryRes[0]['maxsize'])) < 0) ? -1 : (Math.round(parseInt(queryRes[0]['maxsize'])*8));
+          growth = Math.round(parseInt(queryRes[0]['growth']));
           
-          changeText('maxSizeLI', "Max Size: " + maxSize +" KB.");
+          changeText('maxSizeLI', "Max Size: " + ((maxSize === -1) ? ' ∞' : maxSize) +" KB.");
+          changeText('actualSizeLI', "Actual Size: " + actualSize +" KB.");
           changeText('growthLI', "Growth: " + growth +".");
-          changeText('userPercentageLI', "Usage %: " + (updateScalingFactor('master', 0) / actualSize)*100 +"%.");
+          changeText('userPercentageLI', "Usage %: " + (used / actualSize)*100 +"%.");
           
-        }, 1000);
-
-        var changeText = function(itemId, text){ 
-          document.getElementById(itemId).innerHTML = text;
-        };
+        }        
     </script>
-
-    
-    
 @endsection
