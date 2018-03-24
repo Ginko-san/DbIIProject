@@ -36,7 +36,7 @@ return [
             'driver' => 'sqlsrv',
             'host' => 'localhost',
             'port' => '1433',
-            'database' => 'entidadBancariaBD',
+            'database' => 'model',
             'username' => 'sa',
             'password' => 'S@lchich0n15',
             'charset' => 'utf8',

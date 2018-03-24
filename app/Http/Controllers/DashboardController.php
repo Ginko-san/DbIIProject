@@ -16,6 +16,11 @@ class DashboardController extends Controller
         return view('dashboard', ['databasesOnList' => $sysDataBases, 'currentDB' => $DBreturned]);
     }
 
+    public function logout() {
+        DB::disconnect();
+        return view('auth.login', ['message' => '']);
+    }
+
     public static function screenMonitorDataReturn() {
         $value = config('database.connections.onthefly.driver');
 

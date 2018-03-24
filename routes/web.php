@@ -9,13 +9,17 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-
+*/
 Route::get('/', function () {
-    return view('auth.login');
-});*/
+    return redirect()->route('login.index');
+});
 
 Route::resource('/login', 'LoginController');
 Route::resource('/dashboard', 'DashboardController');
+Route::resource('/file', 'FileController');
+Route::resource('/filegroup', 'FileGroupController');
+
+Route::get('/logout', 'DashboardController@logout')->name('dashboard.logout');
 Route::post('/changeDatabaseNameConnected', 'DashboardController@changeDatabaseNameConnected')->name('dashboard.changeDBName');
 
 Route::resource('/test', 'TestController');
@@ -31,6 +35,6 @@ Route::get('/testconn', function () {
 Route::get('/testconn', 'DashboardController@screenMonitorDataReturn');
 
 Route::get('/testconn2', function () {
-    $users = DB::connection('onthefly')->getDatabaseName();
+    $users = DB::connection('onthefly')->select("SELECT name from sys.filegroups");
     var_dump($users);
 });
