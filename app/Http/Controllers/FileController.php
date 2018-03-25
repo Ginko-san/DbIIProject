@@ -14,6 +14,11 @@ class FileController extends Controller
      * @return Response
      */
     public function index() {
+        $value = config('database.connections.onthefly.driver');
+        
+        if ($value === 'pgsql') {
+            return redirect()->route('dashboard.index');
+        }
         $data = DB::connection('onthefly')->select("SELECT FileGroup = FILEGROUP_NAME(a.data_space_id), 
                                                                     DatabaseName = DB_NAME(a.database_id), 
                                                                     a.name, a.physical_name as 'Filename', 

@@ -21,8 +21,6 @@ use App\Http\Controllers\DashboardController;?>
     }
 </style>
 
-    
-
     <div class="container-fluid">
       <div class="row">
       
@@ -36,20 +34,50 @@ use App\Http\Controllers\DashboardController;?>
             </div>
           </div>
 
+           
+
+          
           <div class="row">
+            @if (config('database.connections.onthefly.driver') == 'pgsql')
+              <h2>Postgres DB's Info</h2>
+              <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                  <thead>
+                    <tr>
+                      <th>Database</th>
+                      <th>Size</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach ($dbData as $db)
+                      <tr>
+                        <td>{{ $db->datname }}</td>
+                        <td>{{ $db->pg_size_pretty }}</td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+              </div>
+            @else
             <div style="width:70%" id="screenAlign">
               <canvas class="my-4" id="screenStorage"></canvas>
             </div>
+            @endif
+            
             <div>
-              <!-- List showing data of the current database selected -->
-              <div id="screenDataOthers row">
-                <ul class="list-group">
-                  <li class="list-group-item list-group-item-dark" id="maxSizeLI">Max Size: wait... KB."</li>
-                  <li class="list-group-item list-group-item-light" id="actualSizeLI">Actual Size: wait... KB."</li>
-                  <li class="list-group-item list-group-item-dark" id="growthLI">Growth: wait... .</li>
-                  <li class="list-group-item list-group-item-light" id="userPercentageLI">Usage %: wait... %.</li>
-                </ul>
-              </div>
+
+              @if (config('database.connections.onthefly.driver') == 'sqlsrv')
+                <!-- List showing data of the current database selected -->
+                <div id="screenDataOthers row">
+                  <ul class="list-group">
+                    <li class="list-group-item list-group-item-dark" id="maxSizeLI">Max Size: wait... KB."</li>
+                    <li class="list-group-item list-group-item-light" id="actualSizeLI">Actual Size: wait... KB."</li>
+                    <li class="list-group-item list-group-item-dark" id="growthLI">Growth: wait... .</li>
+                    <li class="list-group-item list-group-item-light" id="userPercentageLI">Usage %: wait... %.</li>
+                  </ul>
+                </div>
+              @endif
+              
 
               <!-- Select tag to change the current db -->
               <br/>
@@ -71,59 +99,6 @@ use App\Http\Controllers\DashboardController;?>
                   </div>
                 </form>
               </div>
-
-            </div>
-          </div>
-
-          <div class="row">
-            <h2>Section title</h2>
-            <div class="table-responsive">
-              <table class="table table-striped table-sm">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Header</th>
-                    <th>Header</th>
-                    <th>Header</th>
-                    <th>Header</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                  @foreach ($databasesOnList as $db)
-                    <td>{{ $db->name }}</td>
-                  @endforeach
-                  </tr>
-                  <tr>
-                    <td>1,002</td>
-                    <td>amet</td>
-                    <td>consectetur</td>
-                    <td>adipiscing</td>
-                    <td>elit</td>
-                  </tr>
-                  <tr>
-                    <td>1,003</td>
-                    <td>Integer</td>
-                    <td>nec</td>
-                    <td>odio</td>
-                    <td>Praesent</td>
-                  </tr>
-                  <tr>
-                    <td>1,003</td>
-                    <td>libero</td>
-                    <td>Sed</td>
-                    <td>cursus</td>
-                    <td>ante</td>
-                  </tr>
-                  <tr>
-                    <td>1,004</td>
-                    <td>dapibus</td>
-                    <td>diam</td>
-                    <td>Sed</td>
-                    <td>nisi</td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
           </div>
           

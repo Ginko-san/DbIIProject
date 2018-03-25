@@ -11,7 +11,11 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>FileGroup</th>
+                        @if (config('database.connections.onthefly.driver') == 'sqlsrv')
+                            <th>FileGroups</th>
+                        @else 
+                            <th>Tablespaces</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>

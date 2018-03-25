@@ -21,10 +21,6 @@ class LoginController extends Controller
             'host'=>'required',
             'port'=>'required',
         ]);
-        
-        DatabaseConnection::modEnv($request->dbRadio, $request->host, $request->port, $request->username, $request->password);
-
-        sleep(1);
 
         try {
             $conn = DatabaseConnection::setConnection($request);
@@ -35,8 +31,9 @@ class LoginController extends Controller
             return view('auth.login', ['message' => 'Something went wrong dude, pls try again!']);
         }
         
-        return redirect()->route('dashboard.index')->with('message','Connection Ready!');
-
+        DatabaseConnection::modEnv($request->dbRadio, $request->host, $request->port, $request->username, $request->password);
+        sleep(1);
+        return redirect()->route('dashboard.index', ['connection'=>$conn])->with('message','Connection Ready!');
 
     }
 }

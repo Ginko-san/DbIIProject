@@ -10,10 +10,24 @@ class DashboardController extends Controller
 {
     //
     public function index() {
-        $sysDataBases = $this->runASelectQuery('SELECT name FROM master.dbo.sysdatabases');
+        $value = config('database.connections.onthefly.driver');
+        
         $DBreturned = DB::connection('onthefly')->getDatabaseName();
         
-        return view('dashboard', ['databasesOnList' => $sysDataBases, 'currentDB' => $DBreturned]);
+        if ($value === 'sqlsrv') {
+            $sysDataBases = $this->runASelectQuery('SELECT name FROM master.dbo.sysdatabases');
+            return view('dashboard', ['databasesOnList' => $sysDataBases, 'currentDB' => $DBreturned]);
+        } else if ($value === 'pgsql') {
+            $sysDataBases = $this->runASelectQuery('SELECT datname as name FROM pg_database;');
+            $dbDataPlus = $this->runASelectQuery('SELECT datname, pg_size_pretty(pg_database_size(datname))
+                                                  FROM pg_database
+                                                  ORDER BY pg_database_size(datname) desc;');
+            return view('dashboard', ['databasesOnList' => $sysDataBases, 'currentDB' => $DBreturned, 'dbData'=>$dbDataPlus]);
+        }
+        
+        
+
+        
     }
 
     public function logout() {

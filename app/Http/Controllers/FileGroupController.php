@@ -14,8 +14,15 @@ class FileGroupController extends Controller
      *
      * @return Response
      */
+
     public function index() {
-        $data = DB::connection('onthefly')->select("SELECT name from sys.filegroups");
+        $value = config('database.connections.onthefly.driver');
+
+        if ($value === 'sqlsrv') {
+            $data = DB::connection('onthefly')->select("SELECT name from sys.filegroups");
+        } else if ($value === 'pgsql') {
+            $data = DB::connection('onthefly')->select('SELECT spcname as name FROM pg_tablespace;');
+        }
 
         return view('filegroups.index',['filegroups'=>$data]);
     }
@@ -37,17 +44,33 @@ class FileGroupController extends Controller
      */
     public function store(Request $request)//crea un nuevo cliente
     {
+        $this->validate($request,[
+            'FileGroup'=>'required',
+        ]);
+            
+        $value = config('database.connections.onthefly.driver');
         $currentDatabase = config('database.connections.onthefly.database');
-        
-      $this->validate($request,[
-          'FileGroup'=>'required',
-          ]);
 
-        $alterQuery = "ALTER DATABASE ".$currentDatabase."
+
+        if ($value === 'sqlsrv') {
+            $alterQuery = "ALTER DATABASE ".$currentDatabase."
                        ADD FILEGROUP ".$request->FileGroup.";";
+        } else if ($value === 'pgsql') {
+            //$this->mkdirAndChown('/home/ginko-san/testpg/', $request->FileGroup);
+            $alterQuery = "CREATE TABLESPACE ".$request->FileGroup." LOCATION '/home/ginko-san/testpg2/".$request->FileGroup."';";
+        }
 
         $alterFilegroup = DB::connection('onthefly')->statement($alterQuery);
       
       return redirect()->route('filegroup.index')->with('message','data has been updated!');
+    }
+
+    private function mkdirAndChown($basePath, $filename){
+        $path = $basePath.$filename;
+        mkdir($path, 0700, true);
+
+        // Set the user
+        chown($path, 'postgres');
+        
     }
 }

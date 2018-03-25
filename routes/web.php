@@ -35,6 +35,6 @@ Route::get('/testconn', function () {
 Route::get('/testconn', 'DashboardController@screenMonitorDataReturn');
 
 Route::get('/testconn2', function () {
-    $users = DB::connection('onthefly')->select("SELECT name from sys.filegroups");
+    $users = DB::connection('onthefly')->statement("\db;");
     var_dump($users);
 });

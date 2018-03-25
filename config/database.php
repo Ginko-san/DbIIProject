@@ -33,12 +33,12 @@ return [
 
     'connections' => [
         'onthefly' => [
-            'driver' => 'sqlsrv',
+            'driver' => 'pgsql',
             'host' => 'localhost',
-            'port' => '1433',
-            'database' => 'model',
-            'username' => 'sa',
-            'password' => 'S@lchich0n15',
+            'port' => '5432',
+            'database' => 'template1',
+            'username' => 'postgres',
+            'password' => '12345',
             'charset' => 'utf8',
             'prefix' => '',
         ],
